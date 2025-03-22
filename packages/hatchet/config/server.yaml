@@ -1,0 +1,113 @@
+##
+## https://github.com/hatchet-dev/hatchet/blob/v0.53.15/pkg/config/server/server.go
+##
+
+runtime:
+  ## $SERVER_PORT
+  port: 8080
+  ## $SERVER_URL
+  url: ~
+  ## $SERVER_GRPC_PORT
+  grpcPort: 7070
+  ## $SERVER_GRPC_BIND_ADDRESS
+  grpcBindAddress: 0.0.0.0
+  ## $SERVER_GRPC_BROADCAST_ADDRESS
+  grpcBroadcastAddress: ~
+  ## $SERVER_GRPC_INSECURE
+  grpcInsecure: true
+
+  ## $SERVER_ALLOW_SIGNUP
+  allowSignup: true
+  ## $SERVER_ALLOW_INVITES
+  allowInvites: false
+  ## $SERVER_ALLOW_CREATE_TENANT
+  allowCreateTenant: true
+  ## $SERVER_ALLOW_CHANGE_PASSWORD
+  allowChangePassword: false
+
+  limits:
+    ## $SERVER_LIMITS_DEFAULT_TENANT_RETENTION_PERIOD
+    defaultTenantRetentionPeriod: 720h
+    ## $SERVER_LIMITS_DEFAULT_WORKFLOW_RUN_LIMIT
+    defaultWorkflowRunLimit: 1000
+    ## $SERVER_LIMITS_DEFAULT_WORKFLOW_RUN_ALARM_LIMIT
+    defaultWorkflowRunAlarmLimit: 750
+    ## $SERVER_LIMITS_DEFAULT_WORKFLOW_RUN_WINDOW
+    defaultWorkflowRunWindow: 24h
+    ## $SERVER_LIMITS_DEFAULT_WORKER_LIMIT
+    defaultWorkerLimit: 4
+    ## $SERVER_LIMITS_DEFAULT_WORKER_ALARM_LIMIT
+    defaultWorkerAlarmLimit: 2
+    ## $SERVER_LIMITS_DEFAULT_EVENT_LIMIT
+    defaultEventLimit: 1000
+    ## $SERVER_LIMITS_DEFAULT_EVENT_ALARM_LIMIT
+    defaultEventAlarmLimit: 750
+    ## $SERVER_LIMITS_DEFAULT_EVENT_WINDOW
+    defaultEventWindow: 24h
+    ## $SERVER_LIMITS_DEFAULT_CRON_LIMIT
+    defaultCronLimit: 5
+    ## $SERVER_LIMITS_DEFAULT_CRON_ALARM_LIMIT
+    defaultCronAlarmLimit: 2
+    ## $SERVER_LIMITS_DEFAULT_SCHEDULE_LIMIT
+    defaultScheduleLimit: 1000
+    ## $SERVER_LIMITS_DEFAULT_SCHEDULE_ALARM_LIMIT
+    defaultScheduleAlarmLimit: 750
+
+encryption:
+  ## $SERVER_ENCRYPTION_MASTER_KEYSET
+  masterKeyset: ~
+  jwt:
+    ## $SERVER_ENCRYPTION_JWT_PUBLIC_KEYSET
+    publicJWTKeyset: ~
+    ## $SERVER_ENCRYPTION_JWT_PRIVATE_KEYSET
+    privateJWTKeyset: ~
+
+auth:
+  ## $SERVER_AUTH_BASIC_AUTH_ENABLED
+  basicAuthEnabled: true
+  ## $SERVER_AUTH_SET_EMAIL_VERIFIED
+  setEmailVerified: true
+  cookie:
+    ## $SERVER_AUTH_COOKIE_NAME
+    name: hatchet
+    ## $SERVER_AUTH_COOKIE_DOMAIN
+    domain: localhost
+    ## $SERVER_AUTH_COOKIE_SECRETS
+    secrets: ~
+    ## $SERVER_AUTH_COOKIE_INSECURE
+    insecure: true
+
+msgQueue:
+  enabled: true
+  ## $SERVER_MSGQUEUE_KIND / $SERVER_TASKQUEUE_KIND
+  kind: postgres
+  postgres:
+    qos: 100
+
+securityCheck:
+  ## $SERVER_SECURITY_CHECK_ENABLED
+  enabled: false
+
+services:
+- all
+
+analytics:
+  posthog:
+    enabled: false
+
+logger:
+  ## $SERVER_LOGGER_LEVEL
+  level: info
+  ## $SERVER_LOGGER_FORMAT
+  format: json
+additionalLoggers:
+  queue:
+    ## $SERVER_ADDITIONAL_LOGGERS_QUEUE_LEVEL
+    level: info
+    ## $SERVER_ADDITIONAL_LOGGERS_QUEUE_FORMAT
+    format: json
+  pgxStats:
+    ## $SERVER_ADDITIONAL_LOGGERS_PGXSTATS_LEVEL
+    level: info
+    ## $SERVER_ADDITIONAL_LOGGERS_PGXSTATS_FORMAT
+    format: json

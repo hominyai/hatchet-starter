@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+
+##
+## adapted from https://github.com/hatchet-dev/hatchet/blob/v0.55.21/hack/lite/start.sh
+##
+
+if [[ -z "${DATABASE_URL}" ]]; then
+  export DATABASE_URL="postgres://${DATABASE_POSTGRES_USERNAME:?Must set DATABASE_POSTGRES_USERNAME}:${DATABASE_POSTGRES_PASSWORD:?Must set DATABASE_POSTGRES_PASSWORD}@${DATABASE_POSTGRES_HOST:?Must set DATABASE_POSTGRES_HOST}:${DATABASE_POSTGRES_PORT:?Must set DATABASE_POSTGRES_PORT}/${DATABASE_POSTGRES_DB_NAME:?Must set DATABASE_POSTGRES_DB_NAME}"
+fi
+
+__migrate() (
+  hatchet-migrate
+  hatchet-admin --config ${HATCHET_DIR}/config seed
+)
+
+if [[ "${RELEASE_COMMAND}" == "1" ]]; then
+  __migrate
+fi
+
+exec "$@"

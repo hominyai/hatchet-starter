@@ -1,0 +1,12 @@
+[project]
+name = "worker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "anyio>=4.9.0",
+    "hatchet-sdk>=0.47.1",
+    "pydantic>=2.10.6",
+    "pydantic-settings>=2.8.1",
+]

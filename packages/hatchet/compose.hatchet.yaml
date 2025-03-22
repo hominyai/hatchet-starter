@@ -1,0 +1,100 @@
+services:
+  hatchet-init:
+    cpus: '0.250'
+    mem_limit: 1024mb
+    build:
+      dockerfile: docker/Dockerfile
+      target: dev
+      args:
+        - HATCHET_DIR=/opt/hatchet
+        ## NOTE: below can be used to override Dockerfile build defaults
+        # - LITE_FRONTEND_PORT=8081
+        # - LITE_RUNTIME_PORT=8888
+        # - SERVER_GRPC_PORT=7070
+        # - SERVER_PORT=8080
+    command:
+      - '/init-local.sh'
+    environment:
+      - ADMIN_PASSWORD
+      - DATABASE_POSTGRES_HOST
+      - DATABASE_POSTGRES_PORT
+      - DATABASE_POSTGRES_USERNAME
+      - DATABASE_POSTGRES_PASSWORD
+      - DATABASE_POSTGRES_DB_NAME
+      - SERVER_AUTH_COOKIE_SECRETS
+      - SERVER_ENCRYPTION_MASTER_KEYSET
+      - SERVER_ENCRYPTION_JWT_PUBLIC_KEYSET
+      - SERVER_ENCRYPTION_JWT_PRIVATE_KEYSET
+      - SERVER_GRPC_BROADCAST_ADDRESS=host.docker.internal:47070
+      - SERVER_URL=http://host.docker.internal:48080
+      ##
+      ## NOTE: below shouldn't be necessary and should be respected by YAML configs
+      ##
+      - SERVER_AUTH_COOKIE_DOMAIN=localhost
+      - SERVER_GRPC_INSECURE=true
+      # - SERVER_AUTH_COOKIE_DOMAIN
+      # - SERVER_GRPC_BIND_ADDRESS=0.0.0.0
+      # - SERVER_GRPC_PORT=7070
+      # - DATABASE_LOGGER_LEVEL=debug
+      # - DATABASE_LOGGER_FORMAT=json
+      # - SERVER_LOGGER_LEVEL=debug
+      # - SERVER_LOGGER_FORMAT=json
+      ##
+      ## -- ^ end Hatchet environment variables ^ --
+      ##
+      - RELEASE_COMMAND=1
+      - X_HATCHET_CLIENT_SECRETS_DIR=/opt/hatchet/secrets
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./config
+          target: /opt/hatchet/config
+        - action: rebuild
+          path: ./docker
+    volumes:
+      - hatchet-secrets:/opt/hatchet/secrets:rw
+    depends_on:
+      postgres:
+        condition: service_healthy
+        restart: true
+
+  hatchet:
+    extends:
+      service: hatchet-init
+    command: !reset null
+    restart: unless-stopped
+    environment:
+      - RELEASE_COMMAND=0
+    volumes: !reset []
+    ports:
+      - 47070:7070 ## Engine gRPC
+      - 48080:8080 ## API
+      - 48081:8081 ## UI
+      - 48888:8888 ## Lite reverse proxy
+    depends_on:
+      hatchet-init:
+        condition: service_completed_successfully
+        restart: true
+
+  postgres:
+    image: postgres:15.6
+    command: postgres -c 'max_connections=200'
+    restart: always
+    environment:
+      - POSTGRES_USER=${DATABASE_POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DATABASE_POSTGRES_DB_NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${DATABASE_POSTGRES_DB_NAME} -U ${DATABASE_POSTGRES_USERNAME}"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - hatchet-postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  hatchet-postgres: ~
+  hatchet-secrets: ~

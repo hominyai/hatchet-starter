@@ -1,0 +1,47 @@
+##
+## https://github.com/hatchet-dev/hatchet/blob/v0.53.15/pkg/config/database/config.go
+##
+
+##
+## DATABASE_URL=postgres://${DATABASE_POSTGRES_USERNAME}:${DATABASE_POSTGRES_PASSWORD}@${DATABASE_POSTGRES_HOST}:${DATABASE_POSTGRES_PORT}/${DATABASE_POSTGRES_DB_NAME}
+##
+
+## $DATABASE_POSTGRES_HOST
+host: ~
+## $DATABASE_POSTGRES_PORT
+port: ~
+## $DATABASE_POSTGRES_USERNAME
+username: ~
+## $DATABASE_POSTGRES_PASSWORD
+password: ~
+## $DATABASE_POSTGRES_DB_NAME
+dbName: ~
+## $DATABASE_POSTGRES_SSL_MODE
+sslMode: disable
+## $DATABASE_MAX_CONNS
+maxConns: 30
+## $DATABASE_MIN_CONNS
+minConns: 10
+## $DATABASE_MAX_QUEUE_CONNS
+maxQueueConns: 30
+## $DATABASE_MIN_QUEUE_CONNS
+minQueueConns: 10
+
+logger:
+  ## $DATABASE_LOGGER_LEVEL
+  level: info
+  ## $DATABASE_LOGGER_FORMAT
+  format: json
+
+seed:
+  ## $ADMIN_EMAIL
+  adminEmail: founders@example.com
+  ## $ADMIN_PASSWORD
+  adminPassword: ~
+  ## $ADMIN_NAME
+  adminName: Founders
+  ## $DEFAULT_TENANT_NAME
+  defaultTenantName: Default
+  ## $DEFAULT_TENANT_SLUG
+  defaultTenantSlug: default
+  defaultTenantId: 00000000-0000-0000-0000-000000000000

@@ -1,0 +1,42 @@
+name: hatchet-starter
+
+include:
+  - packages/hatchet/compose.hatchet.yaml
+
+services:
+  worker:
+    restart: unless-stopped
+    build:
+      dockerfile: docker/Dockerfile
+      context: packages/worker
+    cpus: '1'
+    mem_limit: 512mb
+    command: ['python', '-m', 'worker.main']
+    environment:
+      - HATCHET_CLIENT_TLS_STRATEGY=none
+      - HATCHET_CLIENT_WORKER_HEALTHCHECK_ENABLED=True
+      - HATCHET_CLIENT_WORKER_HEALTHCHECK_PORT=8002
+      - X_HATCHET_CLIENT_SECRETS_DIR=/opt/hatchet/secrets
+    develop:
+      watch:
+        - action: sync+restart
+          x-initialSync: true
+          path: ./packages/worker/worker
+          target: /app/worker
+        - action: rebuild
+          path: ./packages/worker/docker
+        - action: rebuild
+          path: ./packages/worker/uv.lock
+    healthcheck:
+      test: curl --fail localhost:8002/health || exit 1
+      interval: 30s
+      timeout: 2s
+      retries: 3
+      start_period: 30s
+      start_interval: 5s
+    volumes:
+      - hatchet-secrets:/opt/hatchet/secrets:ro
+    depends_on:
+      hatchet:
+        condition: service_healthy
+        restart: true
