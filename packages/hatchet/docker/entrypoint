@@ -11,7 +11,7 @@ fi
 
 __migrate() (
   hatchet-migrate
-  hatchet-admin --config ${HATCHET_DIR}/config seed
+  hatchet-admin --config /opt/hatchet/config seed
 )
 
 if [[ "${RELEASE_COMMAND}" == "1" ]]; then

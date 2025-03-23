@@ -10,9 +10,7 @@ FROM ghcr.io/hatchet-dev/hatchet/hatchet-engine:${HATCHET_VERSION_TAG} AS hatche
 ## https://github.com/hatchet-dev/hatchet/blob/v0.55.21/build/package/lite.dockerfile#L24-L48
 FROM alpine AS base
 
-ARG HATCHET_DIR=/opt/hatchet
-ENV HATCHET_DIR=${HATCHET_DIR}
-WORKDIR ${HATCHET_DIR}
+WORKDIR /opt/hatchet
 
 RUN apk update && apk add --no-cache gcc musl-dev openssl bash ca-certificates curl postgresql-client
 
@@ -20,7 +18,7 @@ COPY --from=hatchet-lite --link /hatchet-admin /hatchet-lite /hatchet-migrate ./
 COPY --from=hatchet-api --link /hatchet/hatchet-api ./
 COPY --from=hatchet-engine --link /hatchet/hatchet-engine ./
 
-RUN ["/usr/bin/env", "bash", "-e", "-c", "ln -s /${HATCHET_DIR}/hatchet-* /usr/local/bin/"]
+RUN ["/usr/bin/env", "bash", "-e", "-c", "ln -s /opt/hatchet/hatchet-* /usr/local/bin/"]
 
 COPY --from=hatchet-lite --link /static-assets /static-assets
 COPY docker/entrypoint /entrypoint
@@ -41,7 +39,7 @@ ENV LITE_FRONTEND_PORT=${LITE_FRONTEND_PORT} \
 EXPOSE ${LITE_FRONTEND_PORT} ${LITE_RUNTIME_PORT} ${SERVER_GRPC_PORT} ${SERVER_PORT}
 
 ENTRYPOINT ["/entrypoint"]
-CMD ["hatchet-lite", "--config", "${HATCHET_DIR}/config"]
+CMD ["hatchet-lite", "--config", "/opt/hatchet/config"]
 
 FROM base AS dev
 

@@ -5,8 +5,7 @@ services:
     build:
       dockerfile: docker/Dockerfile
       target: dev
-      args:
-        - HATCHET_DIR=/opt/hatchet
+      args: []
         ## NOTE: below can be used to override Dockerfile build defaults
         # - LITE_FRONTEND_PORT=8081
         # - LITE_RUNTIME_PORT=8888
@@ -31,7 +30,7 @@ services:
       ## NOTE: below shouldn't be necessary and should be respected by YAML configs
       ##
       - SERVER_AUTH_COOKIE_DOMAIN=localhost
-      - SERVER_GRPC_INSECURE=true
+      # - SERVER_GRPC_INSECURE=true
       # - SERVER_AUTH_COOKIE_DOMAIN
       # - SERVER_GRPC_BIND_ADDRESS=0.0.0.0
       # - SERVER_GRPC_PORT=7070
