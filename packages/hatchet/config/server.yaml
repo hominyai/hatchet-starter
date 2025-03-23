@@ -97,17 +97,17 @@ analytics:
 
 logger:
   ## $SERVER_LOGGER_LEVEL
-  level: info
+  level: warn
   ## $SERVER_LOGGER_FORMAT
   format: json
 additionalLoggers:
   queue:
     ## $SERVER_ADDITIONAL_LOGGERS_QUEUE_LEVEL
-    level: info
+    level: warn
     ## $SERVER_ADDITIONAL_LOGGERS_QUEUE_FORMAT
     format: json
   pgxStats:
     ## $SERVER_ADDITIONAL_LOGGERS_PGXSTATS_LEVEL
-    level: info
+    level: warn
     ## $SERVER_ADDITIONAL_LOGGERS_PGXSTATS_FORMAT
     format: json

@@ -30,14 +30,13 @@ services:
       ## NOTE: below shouldn't be necessary and should be respected by YAML configs
       ##
       - SERVER_AUTH_COOKIE_DOMAIN=localhost
-      # - SERVER_GRPC_INSECURE=true
-      # - SERVER_AUTH_COOKIE_DOMAIN
-      # - SERVER_GRPC_BIND_ADDRESS=0.0.0.0
-      # - SERVER_GRPC_PORT=7070
+      ##
+      ## NOTE: these are optional overrides
+      ##
       # - DATABASE_LOGGER_LEVEL=debug
-      # - DATABASE_LOGGER_FORMAT=json
+      - DATABASE_LOGGER_FORMAT=console
       # - SERVER_LOGGER_LEVEL=debug
-      # - SERVER_LOGGER_FORMAT=json
+      - SERVER_LOGGER_FORMAT=console
       ##
       ## -- ^ end Hatchet environment variables ^ --
       ##
