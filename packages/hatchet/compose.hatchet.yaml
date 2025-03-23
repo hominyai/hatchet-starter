@@ -26,11 +26,6 @@ services:
       - SERVER_ENCRYPTION_JWT_PRIVATE_KEYSET
       - SERVER_GRPC_BROADCAST_ADDRESS=host.docker.internal:47070
       - SERVER_URL=http://host.docker.internal:48080
-      ##
-      ## NOTE: below shouldn't be necessary and should be respected by YAML configs
-      ##
-      - SERVER_AUTH_COOKIE_DOMAIN=localhost
-      ##
       ## NOTE: these are optional overrides
       ##
       # - DATABASE_LOGGER_LEVEL=debug
