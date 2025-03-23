@@ -18,5 +18,7 @@ CMD ["python", "-m", "worker.main"]
 
 FROM base AS dev
 
-HEALTHCHECK --interval=30s --timeout=2s --start-period=10s --start-interval=2s --retries=3 \
+RUN apt update && apt-get --no-install-recommends --yes install curl
+
+HEALTHCHECK --interval=30s --timeout=2s --start-period=10s --start-interval=2s --retries=5 \
   CMD curl --fail localhost:8002/health || exit 1
