@@ -1,11 +1,12 @@
 # Hatchet Starter
 
-> Minimum repro Hatchet starter for 0.55.21 to demonstrate config loader issue(s)
-
-See <https://github.com/hatchet-dev/hatchet/issues/1380>.
+> Minimal containerized [Hatchet](https://hatchet.run) starter for Python
 
 ## Quick start
 
 ```sh
 docker compose up --build --watch
+
+## cleanup
+docker compose down --volumes
 ```
