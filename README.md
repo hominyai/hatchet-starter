@@ -16,6 +16,6 @@ docker compose down --volumes
 
 ## Links
 
-- Hatchet web console: [localhost:48879](http://localhost:48879/)
+- Hatchet web console: [localhost:48879](http://localhost:48879/) or [localhost:48880](http://localhost:48880/) (Docker Compose seems to grab one nondeterministically)
   - username: `founders@example.com`
   - password: `Admin123!!`
