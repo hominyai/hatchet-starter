@@ -5,20 +5,20 @@ services:
     build:
       dockerfile: docker/Dockerfile
       target: dev
-      args: []
+      args:
         ## NOTE: below can be used to override Dockerfile build defaults
-        # - LITE_FRONTEND_PORT=8081
-        # - LITE_RUNTIME_PORT=8888
-        # - SERVER_GRPC_PORT=7070
-        # - SERVER_PORT=8080
+        - LITE_FRONTEND_PORT=8180
+        - LITE_RUNTIME_PORT=8880
+        - SERVER_GRPC_PORT=7070
+        - SERVER_PORT=8080
     command:
       - '/init-local.sh'
     environment:
       ##
       ## -- begin Hatchet environment variables --
       ##
-      - SERVER_GRPC_BROADCAST_ADDRESS=host.docker.internal:47070
-      - SERVER_URL=http://host.docker.internal:48080
+      - SERVER_GRPC_BROADCAST_ADDRESS=hatchet:7070
+      - SERVER_URL=http://hatchet:8080
       ## NOTE: these come from `.env`
       - ADMIN_PASSWORD
       - DATABASE_POSTGRES_HOST
@@ -64,10 +64,10 @@ services:
       - RELEASE_COMMAND=0
     volumes: !reset []
     ports:
-      - 47070:7070 ## Engine gRPC
-      - 48080:8080 ## API
-      - 48081:8081 ## UI
-      - 48888:8888 ## Lite reverse proxy
+      - 47069-47070:7070 ## Engine gRPC
+      - 48079-48080:8080 ## API
+      - 48179-48181:8180 ## UI
+      - 48879-48880:8880 ## Lite reverse proxy
     depends_on:
       hatchet-init:
         condition: service_completed_successfully
