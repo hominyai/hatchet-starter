@@ -1,7 +1,7 @@
 services:
   hatchet-init:
     cpus: '0.250'
-    mem_limit: 1024mb
+    mem_limit: 512mb
     build:
       dockerfile: docker/Dockerfile
       target: dev
@@ -14,6 +14,12 @@ services:
     command:
       - '/init-local.sh'
     environment:
+      ##
+      ## -- begin Hatchet environment variables --
+      ##
+      - SERVER_GRPC_BROADCAST_ADDRESS=host.docker.internal:47070
+      - SERVER_URL=http://host.docker.internal:48080
+      ## NOTE: these come from `.env`
       - ADMIN_PASSWORD
       - DATABASE_POSTGRES_HOST
       - DATABASE_POSTGRES_PORT
@@ -24,10 +30,7 @@ services:
       - SERVER_ENCRYPTION_MASTER_KEYSET
       - SERVER_ENCRYPTION_JWT_PUBLIC_KEYSET
       - SERVER_ENCRYPTION_JWT_PRIVATE_KEYSET
-      - SERVER_GRPC_BROADCAST_ADDRESS=host.docker.internal:47070
-      - SERVER_URL=http://host.docker.internal:48080
       ## NOTE: these are optional overrides
-      ##
       # - DATABASE_LOGGER_LEVEL=debug
       - DATABASE_LOGGER_FORMAT=console
       # - SERVER_LOGGER_LEVEL=debug
@@ -40,6 +43,7 @@ services:
     develop:
       watch:
         - action: sync+restart
+          x-initialSync: true
           path: ./config
           target: /opt/hatchet/config
         - action: rebuild

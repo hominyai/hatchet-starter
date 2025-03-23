@@ -9,9 +9,9 @@ services:
     build:
       dockerfile: docker/Dockerfile
       context: packages/worker
+      target: dev
     cpus: '1'
     mem_limit: 512mb
-    command: ['python', '-m', 'worker.main']
     environment:
       - HATCHET_CLIENT_TLS_STRATEGY=none
       - HATCHET_CLIENT_WORKER_HEALTHCHECK_ENABLED=True
@@ -27,13 +27,6 @@ services:
           path: ./packages/worker/docker
         - action: rebuild
           path: ./packages/worker/uv.lock
-    healthcheck:
-      test: curl --fail localhost:8002/health || exit 1
-      interval: 30s
-      timeout: 2s
-      retries: 3
-      start_period: 30s
-      start_interval: 5s
     volumes:
       - hatchet-secrets:/opt/hatchet/secrets:ro
     depends_on:

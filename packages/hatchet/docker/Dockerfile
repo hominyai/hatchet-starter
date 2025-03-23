@@ -45,5 +45,5 @@ FROM base AS dev
 
 COPY docker/init-local.sh /init-local.sh
 
-HEALTHCHECK --interval=30s --timeout=2s --start-period=20s --start-interval=5s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=2s --start-period=15s --start-interval=3s --retries=3 \
   CMD (curl --fail localhost:8080/api/ready && curl --fail localhost:8733/ready) || exit 1
