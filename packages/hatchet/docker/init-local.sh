@@ -7,7 +7,7 @@ mkdir -p "${X_HATCHET_CLIENT_SECRETS_DIR}"
 
 hatchet_client_token_file="${X_HATCHET_CLIENT_SECRETS_DIR}/hatchet_client_token"
 
-if ! [ -f "${hatchet_client_token_file}" ] || [ -s "${hatchet_client_token_file}" ]; then
+if [ ! -s "${hatchet_client_token_file}" ]; then
   ## adapted from https://github.com/hatchet-dev/hatchet/blob/v0.53.14/frontend/docs/pages/self-hosting/hatchet-lite.mdx?plain=1#L142-L143
   ten_years_in_hours="$(expr 10 '*' 365 '*' 24)"
   hatchet-admin --config /opt/hatchet/config \
