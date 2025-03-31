@@ -16,6 +16,9 @@ runtime:
   ## $SERVER_GRPC_INSECURE
   grpcInsecure: true
 
+  ## $SERVER_DEFAULT_ENGINE_VERSION
+  defaultEngineVersion: V1
+
   ## $SERVER_ALLOW_SIGNUP
   allowSignup: true
   ## $SERVER_ALLOW_INVITES

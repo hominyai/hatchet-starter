@@ -19,11 +19,11 @@ dbName: ~
 ## $DATABASE_POSTGRES_SSL_MODE
 sslMode: disable
 ## $DATABASE_MAX_CONNS
-maxConns: 30
+maxConns: 50
 ## $DATABASE_MIN_CONNS
 minConns: 10
 ## $DATABASE_MAX_QUEUE_CONNS
-maxQueueConns: 30
+maxQueueConns: 50
 ## $DATABASE_MIN_QUEUE_CONNS
 minQueueConns: 10
 
